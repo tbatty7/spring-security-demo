@@ -15,6 +15,11 @@ public class MyController {
         return ResponseEntity.ok("\nhi");
     }
 
+    @GetMapping("/")
+    public String basicStuff() {
+        return "<h1>Anybody can see this</h1>";
+    }
+
     @GetMapping("/check")
     public String getInfo() {
         return "<h1>Got it!</h1>";
