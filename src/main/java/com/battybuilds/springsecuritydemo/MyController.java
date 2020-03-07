@@ -19,4 +19,9 @@ public class MyController {
     public String getInfo() {
         return "<h1>Got it!</h1>";
     }
+
+    @GetMapping("/manage")
+    public String getManagementStuff() {
+        return "<h1>You are Managing!</h1>";
+    }
 }
