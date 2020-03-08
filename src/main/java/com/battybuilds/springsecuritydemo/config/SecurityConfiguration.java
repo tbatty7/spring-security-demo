@@ -36,15 +36,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication()
-                .dataSource(datasource)
-                .withDefaultSchema()  // Spring automatically creates the Auth tables in database with this
-                .withUser(
-                        User.withUsername("admin").password("admintim").roles("ADMIN")
-                )
-                .withUser(
-                        User.withUsername("user").password("awesome").roles("USER")
-                );
-
+                .dataSource(datasource);
     }
 
     @Override
