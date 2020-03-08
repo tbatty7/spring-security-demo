@@ -1,7 +1,7 @@
-INSERT INTO users (username, password, enabled)
+INSERT INTO my_users (username, password, enabled)
   values('user', 'awesome', TRUE);
 
-INSERT INTO users (username, password, enabled)
+INSERT INTO my_users (username, password, enabled)
   values('admin', 'admintim', TRUE);
 
 INSERT INTO authorities (username, authority)
