@@ -16,7 +16,7 @@ import javax.sql.DataSource;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private DataSource datasource; // Spring automatically configures to h2 database as default
+    private DataSource datasource; // Spring automatically configures to h2 database as default datasource
 
 //    This is for Basic In-Memory authentication
 //    @Override
@@ -48,7 +48,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // Authorization
-        http.authorizeRequests()
+        http.csrf().disable()
+                .authorizeRequests()
             .antMatchers("/manage").hasRole("ADMIN")
             .antMatchers("/check").hasAnyRole("ADMIN", "USER")
             .antMatchers("/").permitAll()
