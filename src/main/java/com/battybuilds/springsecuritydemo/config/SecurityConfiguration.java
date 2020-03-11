@@ -1,5 +1,6 @@
 package com.battybuilds.springsecuritydemo.config;
 
+import com.battybuilds.springsecuritydemo.filters.JwtRequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,6 +13,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.sql.DataSource;
 
@@ -22,6 +24,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //    private DataSource datasource; // Spring automatically configures to h2 database as default datasource
     @Autowired
     private MyUserDetailsService userDetails;
+
+    @Autowired
+    private JwtRequestFilter jwtRequestFilter;
 
 //    This is for Basic In-Memory authentication
 //    @Override
@@ -65,7 +70,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests().antMatchers("/authenticate").permitAll()
-                .anyRequest().authenticated();
+                .anyRequest().authenticated()
+                .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // This is because we are using jwt tokens, so the app doesn't have to manage state
+        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class); // This tells Spring to add our Filter before the UsernamePasswordAuthenticationFilter
     }
 
     //    @Override
